@@ -3,11 +3,11 @@
         "name": "busApp",
         "slug": "busApp",
         "version": "1.0.0",
+        "entryPoint": "./app/index.tsx",
         "orientation": "portrait",
         "icon": "./assets/images/icon.png",
-        "scheme": "myapp",
+        "scheme": "busapp",
         "userInterfaceStyle": "automatic",
-        "newArchEnabled": true,
         "ios": {
             "supportsTablet": true
         },
@@ -35,6 +35,10 @@
         ],
         "experiments": {
             "typedRoutes": true
-        }
+        },
+        "experimental": {
+      "newArchEnabled": true
+    }
+        
     }
 }
