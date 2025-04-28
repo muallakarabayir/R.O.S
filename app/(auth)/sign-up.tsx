@@ -6,7 +6,7 @@ import { icons } from "@/constants"; // icons'ın doğru import edildiğinden em
 import { router } from "expo-router"; // expo-router kullanıyorsunuz.
 import { useSignUp } from "@clerk/clerk-expo";
 import OAuth from "@/components/OAuth";
-import { ReactNativeModal } from "react-native-modal";
+//import { ReactNativeModal } from "react-native-modal";
 
 
 
@@ -25,69 +25,61 @@ const SignUpScreen = () => {
     code:''
     
   })
-
- // Handle submission of sign-up form
- const onSignUpPress = async () => {
-  if (!isLoaded) return
-
-  // Start sign-up process using email and password provided
-  try {
-    await signUp.create({
-      emailAddress:form.email,
-      password:form.password
-    })
-
-    // Send user an email with verification code
-    await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
-
-    // Set 'pendingVerification' to true to display second form
-    // and capture OTP code
-    setVerification({
-      ...verification,
-      state:'pending'
-    })
-  } catch (err) {
-    // See https://clerk.com/docs/custom-flows/error-handling
-    // for more info on error handling
-    console.error(JSON.stringify(err, null, 2))
+  const onSignUpPress = async () => {
+    if (!isLoaded) return
+  
+    try {
+      const result = await signUp.create({
+        emailAddress: form.email,
+        password: form.password
+      });
+      console.log("✅ SignUp success:", result);
+  
+      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+      console.log("📩 Verification email sent!");
+  
+      setVerification({
+        ...verification,
+        state: 'pending'
+      });
+    } catch (err: any) {
+      console.error("❌ SignUp error:", JSON.stringify(err, null, 2));
+    }
   }
-}
-
+  
 // Handle submission of verification form
 const onVerifyPress = async () => {
   if (!isLoaded) return
 
   try {
-    // Use the code the user provided to attempt verification
     const signUpAttempt = await signUp.attemptEmailAddressVerification({
-      code:verification.code
-    })
+      code: verification.code
+    });
+    console.log("✅ Verification result:", signUpAttempt);
 
-    // If verification was completed, set the session to active
-    // and redirect the user
     if (signUpAttempt.status === 'complete') {
+      await setActive({ session: signUpAttempt.createdSessionId });
+      setVerification({ ...verification, state: "success" });
+      console.log("🚀 Verification complete, navigating to home");
 
-      //TODO: Create a database user!
-      await setActive({ session: signUpAttempt.createdSessionId })
-      setVerification({...verification,state:"success"});
+      router.replace("/"); // Başarılı olunca ana sayfaya yönlendiriyoruz
     } else {
-      // If the status is not complete, check why. User may need to
-      // complete further steps.
+      console.warn("⚠️ Verification incomplete:", signUpAttempt.status);
       setVerification({
         ...verification,
-        error:"Verifaction failed",
-        state:"failed"
-      })
+        error: "Verification failed",
+        state: "failed"
+      });
     }
   } catch (err: any) {
+    console.error("❌ Verification error:", JSON.stringify(err, null, 2));
     setVerification({
       ...verification,
-      error: err.erros[0].longMessage,
-      state:"failed"
+      error: err.errors?.[0]?.longMessage || "Unknown error",
+      state: "failed"
     });
   }
 }
-
 
 
   return (
@@ -97,7 +89,7 @@ const onVerifyPress = async () => {
         label="Name"
         value={form.name}
         icon={icons.person}
-        onChangeText={(value) => setForm({ ...form, name: value })}
+        onChangeText={(value: string) => setForm({ ...form, name: value })}
         placeholder="İsminizi Giriniz"
         containerStyle={styles.inputContainer}
         inputStyle={styles.input}
@@ -108,7 +100,8 @@ const onVerifyPress = async () => {
         label="Email"
         value={form.email}
         icon={icons.email}
-        onChangeText={(value) => setForm({ ...form, email: value })}        placeholder="Enter your email"
+        onChangeText={(value: string) => setForm({ ...form, name: value })}
+        placeholder="Enter your email"
         containerStyle={styles.inputContainer}
         inputStyle={styles.input}
         labelStyle={styles.label}
@@ -119,7 +112,8 @@ const onVerifyPress = async () => {
         label="Password"
         value={form.password}
         icon={icons.lock}
-        onChangeText={(value) => setForm({ ...form, password: value })}        placeholder="Enter your password"
+        onChangeText={(value: string) => setForm({ ...form, name: value })}
+        placeholder="Enter your password"
         containerStyle={styles.inputContainer}
         inputStyle={styles.input}
         labelStyle={styles.label}
