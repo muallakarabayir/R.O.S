@@ -1,0 +1,50 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "app/index.tsx",
+  "scripts": {
+    "start": "ts-node server.ts",
+    "dev": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pg": "^8.14.1",
+    "react-native-dotenv": "^3.4.11",
+    "recharts": "^2.15.1",
+    "reflect-metadata": "^0.2.2",
+    "socket.io": "^4.8.1",
+    "typeorm": "^0.3.22"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/babel__generator": "^7.6.8",
+    "@types/babel__template": "^7.4.4",
+    "@types/babel__traverse": "^7.20.7",
+    "@types/cors": "^2.8.17",
+    "@types/estree": "^1.0.7",
+    "@types/express": "^5.0.1",
+    "@types/geojson": "^7946.0.16",
+    "@types/hammerjs": "^2.0.46",
+    "@types/jest": "^29.5.14",
+    "@types/jsdom": "^21.1.7",
+    "@types/json-schema": "^7.0.15",
+    "@types/node": "^22.15.2",
+    "@types/parse-json": "^4.0.2",
+    "@types/pg": "^8.11.11",
+    "@types/prop-types": "^15.7.14",
+    "@types/react-test-renderer": "^19.0.0",
+    "@types/socket.io": "^3.0.1",
+    "metro-react-native-babel-preset": "^0.77.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

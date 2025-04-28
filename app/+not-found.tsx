@@ -1,16 +1,18 @@
 import { Link, Stack } from 'expo-router';
-import { StyleSheet,View,Text} from 'react-native';
-
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
+      
       <View style={styles.container}>
-        <Text type="title">This screen doesn't exist.</Text>
-        <Link href="/" style={styles.link}>
-          <Text type="link">Go to home screen!</Text>
-        </Link>
+        <Text style={styles.title}>This screen doesn't exist.</Text>
+        
+        {/* TouchableOpacity ile stil ekliyoruz */}
+        <TouchableOpacity style={styles.link} onPress={() => {/* navigation logic */}}>
+          <Text style={styles.linkText}>Go to home screen!</Text>
+        </TouchableOpacity>
       </View>
     </>
   );
@@ -23,8 +25,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
   link: {
     marginTop: 15,
     paddingVertical: 15,
+  },
+  linkText: {
+    color: 'blue',
+    textDecorationLine: 'underline', // Link görünümü için
   },
 });

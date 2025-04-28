@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Tabs } from "expo-router";
 import { Image, View, StyleSheet, ImageSourcePropType } from "react-native";
 
@@ -117,3 +118,10 @@ const styles = StyleSheet.create({
     height: 28, // h-7
   },
 });
+=======
+import { Stack } from "expo-router";
+
+export default function RootLayout() {
+  return <Stack />;
+}
+>>>>>>> 8a35e702f7cbeb8bc324a0391693c88b49412a18
