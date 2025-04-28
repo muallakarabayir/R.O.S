@@ -1,28 +1,48 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState, useCallback } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { useSignIn } from "@clerk/clerk-expo";
+import { router } from "expo-router";
+
 import CustomButton from "@/components/CustomButton";
-import InputField from "@/components/InputFiled"; // InputField'in doğru import edildiğinden emin olun.
-import { icons } from "@/constants"; // icons'ın doğru import edildiğinden emin olun.
-import { router } from "expo-router"; // expo-router kullanıyorsunuz.
+import InputField from "@/components/InputFiled"; // doğru dosya ismi olduğuna dikkat et
+import { icons } from "@/constants";
 
 const SignIn = () => {
+  const { signIn, setActive, isLoaded } = useSignIn();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    console.log("Login Data:", { email, password });
-    // Burada API çağrısı yapılabilir.
-  };
+  const handleLogin = useCallback(async () => {
+    if (!isLoaded) return;
+
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: email,
+        password: password,
+      });
+
+      if (signInAttempt.status === "complete") {
+        await setActive({ session: signInAttempt.createdSessionId });
+        router.replace("/(root)/(tabs)/home"); // Başarılı giriş sonrası yönlendirme
+      } else {
+        console.log(JSON.stringify(signInAttempt, null, 2));
+        Alert.alert("Error", "Log in failed. Please try again.");
+      }
+    } catch (err: any) {
+      console.log(JSON.stringify(err, null, 2));
+      Alert.alert("Error", err.errors[0]?.longMessage || "Login failed.");
+    }
+  }, [email, password, isLoaded]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Giriş</Text>
       <InputField
         label="Email"
         value={email}
         icon={icons.email}
         onChangeText={setEmail}
-        placeholder="Enter your email"
+        placeholder="Email adresinizi giriniz"
         containerStyle={styles.inputContainer}
         inputStyle={styles.input}
         labelStyle={styles.label}
@@ -30,28 +50,24 @@ const SignIn = () => {
         keyboardType="email-address"
       />
       <InputField
-        label="Password"
+        label="Şifre"
         value={password}
         icon={icons.lock}
         onChangeText={setPassword}
-        placeholder="Enter your password"
+        placeholder="Şifrenizi giriniz"
         containerStyle={styles.inputContainer}
         inputStyle={styles.input}
         labelStyle={styles.label}
         iconStyle={styles.icon}
         secureTextEntry={true}
       />
-      <CustomButton title="Login" onPress={handleLogin} />
+      <CustomButton title="Giriş Yap" onPress={handleLogin} />
 
       {/* Sign-Up Link */}
       <View style={styles.signUpContainer}>
-        <Text style={styles.signUpText}>Don't have an account? </Text>
-        <TouchableOpacity
-          onPress={() => {
-            router.push("/(auth)/sign-up"); // Sign-up sayfasına yönlendirme
-          }}
-        >
-          <Text style={styles.signUpLink}>Sign Up</Text>
+        <Text style={styles.signUpText}>Hesabınız yok mu? </Text>
+        <TouchableOpacity onPress={() => router.push("/(auth)/sign-up")}>
+          <Text style={styles.signUpLink}>Kayıt Ol</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -102,8 +118,8 @@ const styles = StyleSheet.create({
   },
   signUpLink: {
     fontSize: 16,
-    color: "#007BFF", // Mavi renk
-    textDecorationLine: "underline", // Altı çizili link
+    color: "#007BFF",
+    textDecorationLine: "underline",
   },
 });
 

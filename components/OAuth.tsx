@@ -14,7 +14,7 @@ const OAuth = () => {
       {/* "Or" Separator */}
       <View style={styles.separatorContainer}>
         <View style={styles.separator} />
-        <Text style={styles.separatorText}>Or</Text>
+        <Text style={styles.separatorText}> Ya da</Text>
         <View style={styles.separator} />
       </View>
 
