@@ -110,9 +110,8 @@ export default function Page() {
   const { user } = useUser()
   const loading=true;
 
-  const handleSignOut=()=>{
-
-  }
+  const handleSignOut=()=>{};
+  const handleDestinationPress =()=>{};
 
 
   return (
@@ -169,9 +168,17 @@ export default function Page() {
             </TouchableOpacity>
           </View>
           <GoogleTextInput
-            icon={icons.search}
-          
+           icon={icons.search}
+           handlePress ={handleDestinationPress}
           />
+          <>
+          <Text>
+            <View >
+
+            </View>
+          </Text>
+          </>
+
           
           </>
         )}
