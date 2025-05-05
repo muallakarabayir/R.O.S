@@ -6,6 +6,9 @@ import { AppDataSource } from "./config/database";
 import { Sefer } from "./models/Sefer";
 import seferRouter from './routes/seferRoutes';
 import { getTrafficData } from '../utils/getTrafficData';
+import authRoutes from "./routes/authRoutes";
+import driverRoutes from "./routes/driverRoutes";
+
 
 const app = express();
 const httpServer = createServer(app);
@@ -17,6 +20,9 @@ const io = new Server(httpServer, {
 
 app.use(express.json());
 app.use('/api', seferRouter);
+app.use("/api/driver", driverRoutes);
+app.use("/api/admin", authRoutes); // ✅ örnek: /api/admin/sign-in
+
 
 // ❗ Yalnızca database bağlantısı kurulunca başlasın
 AppDataSource.initialize().then(() => {

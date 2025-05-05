@@ -137,3 +137,10 @@ declare interface DriverCardProps {
   selected: number;
   setSelected: () => void;
 }
+export interface GoogleInputProps {
+  icon: any; // veya doğru ikon tipi neyse
+  initialLocation: string;
+  containerStyle?: object;
+  textInputBackgrounColor?: string; // ← Bunu ekle
+  handlePress: () => void;
+}

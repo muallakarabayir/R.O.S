@@ -1,19 +1,16 @@
-import { View,Text} from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Redirect } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
 
-import { useAuth } from '@clerk/clerk-expo'
+const Index = () => {
+  const { isLoaded, isSignedIn } = useAuth();
 
-const Home=()=>{
-    const { isSignedIn } = useAuth()
+  if (!isLoaded) return null;
 
-    if (isSignedIn) {
-      return <Redirect href={'/(root)/(tabs)/home'} />
-    }
+  if (isSignedIn) {
+    return <Redirect href="/(auth)/sign-up" />;
+  }
 
+  return <Redirect href="/(auth)/welcome" />;
+};
 
-    return(
-        <Redirect href="/(auth)/welcome"/>
-    )
-}
-export default Home;
+export default Index;

@@ -1,17 +1,22 @@
-<<<<<<< HEAD
-import {Stack} from "expo-router";
-
-const Layout =()=>{
-    return(
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" options={{headerShown:false}}/>
-        </Stack>
-    )
-}
-=======
 import { Tabs } from 'expo-router';
+import { useAuth } from '@clerk/clerk-expo';
+import { Redirect } from 'expo-router';
+import { View, ActivityIndicator } from 'react-native';
 
 export default function Layout() {
+  const { isLoaded, isSignedIn } = useAuth();
+
+  if (!isLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (!isSignedIn) {
+    return <Redirect href="/(auth)/welcome" />;
+  }
+
   return <Tabs />;
 }
->>>>>>> 8a35e702f7cbeb8bc324a0391693c88b49412a18

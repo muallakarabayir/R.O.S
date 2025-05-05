@@ -4,15 +4,17 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "module": "commonjs",
+    "module": "CommonJS", // bu olmalı
     "target": "ESNext",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "strict": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
-    //"outDir": "./dist"  // Derlenmiş dosyaların konulacağı dizin
-  }
+  },
+  "extends": "expo/tsconfig.base"
 }
