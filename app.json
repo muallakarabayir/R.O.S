@@ -1,41 +1,34 @@
 {
-    "expo": {
-        "name": "busApp",
-        "slug": "busApp",
-        "version": "1.0.0",
-        "entryPoint": "./app/index.tsx",
-        "orientation": "portrait",
-        "icon": "./assets/images/icon.png",
-        "scheme": "busapp",
-        "userInterfaceStyle": "automatic",
-        "ios": {
-            "supportsTablet": true
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/images/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
-            }
-        },
-        "web": {
-            "bundler": "metro",
-            "output": "server",
-            "favicon": "./assets/images/favicon.png"
-        },
-        "plugins": [
-            [
-                "expo-router",
-                {
-                    "origin": "https://ros.dev/"
-                }
-            ]
-        ],
-        "experiments": {
-            "typedRoutes": true
-        },
-        "experimental": {
-      "newArchEnabled": true
-    }
-        
-    }
+  "expo": {
+    "name": "R.O.S",
+    "slug": "ros",
+    "jsEngine": "jsc",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "enabled": true
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "bundleIdentifier": "com.yourcompany.ros",
+      "buildNumber": "1.0.0",
+      "hermesEnabled": false  
+    },
+    "android": {
+      "package": "com.yourcompany.ros",
+      "versionCode": 1,
+      "hermesEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": ["expo-router"]
+  }
 }

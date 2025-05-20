@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MapView, { Marker, Polyline } from "react-native-maps";
+import { View, Text, StyleSheet } from "react-native";
 import { findBestRoute } from "../utils/routeOptimizer";
 
 interface TrafficRouteMapProps {
@@ -20,20 +20,17 @@ const TrafficRouteMap: React.FC<TrafficRouteMapProps> = ({ start, end, useGoogle
     }, [start, end, useGoogle]);
 
     return (
-        <MapView
-            style={{ flex: 1 }}
-            initialRegion={{
-                latitude: start.latitude,
-                longitude: start.longitude,
-                latitudeDelta: 0.05,
-                longitudeDelta: 0.05,
-            }}
-        >
-            <Marker coordinate={start} title="Başlangıç Noktası" />
-            <Marker coordinate={end} title="Varış Noktası" />
-            <Polyline coordinates={route} strokeWidth={4} strokeColor="red" />
-        </MapView>
+        <View style={styles.container}>
+            <Text>MapView şu anda Expo Go'da desteklenmiyor.</Text>
+            <Text>Başlangıç: {start.latitude}, {start.longitude}</Text>
+            <Text>Varış: {end.latitude}, {end.longitude}</Text>
+            <Text>Rota Noktaları: {route.length} adet</Text>
+        </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+});
 
 export default TrafficRouteMap;

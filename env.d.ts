@@ -1,4 +1,3 @@
-declare module "@env" {
-    export const GOOGLE_MAPS_API_KEY: string;
-  }
-  
+declare module '@env' {
+  export const EXPO_PUBLIC_GEOAPIFY_API_KEY: string;
+}

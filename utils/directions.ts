@@ -1,4 +1,4 @@
-import { GOOGLE_MAPS_API_KEY } from '@env';
+import { EXPO_PUBLIC_GEOAPIFY_API_KEY } from '@env';
 
 // Node ve Graph arayüzlerini adlandırılmış export olarak bırakıyoruz.
 export interface Node {
@@ -73,7 +73,7 @@ export const getGoogleDirections = async (
     start: { latitude: number; longitude: number },
     end: { latitude: number; longitude: number }
 ): Promise<{ latitude: number; longitude: number }[]> => {
-    const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${start.latitude},${start.longitude}&destination=${end.latitude},${end.longitude}&key=${GOOGLE_MAPS_API_KEY}&traffic_model=best_guess&departure_time=now`;
+    const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${start.latitude},${start.longitude}&destination=${end.latitude},${end.longitude}&key=${EXPO_PUBLIC_GEOAPIFY_API_KEY}&traffic_model=best_guess&departure_time=now`;
 
     try {
         let response = await fetch(url);

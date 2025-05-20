@@ -23,27 +23,25 @@ const updateSefer = async (req: Request, res: Response, next: NextFunction): Pro
             return;
         }
 
-        // Trafik verisini alıyoruz
-        const trafficData = await getTrafficData(
-            { latitude: sefer.baslangic_lat, longitude: sefer.baslangic_lng },
-            { latitude: sefer.varis_lat, longitude: sefer.varis_lng }
-        );
+      // Trafik verisini alıyoruz
+const trafficData = await getTrafficData(
+    { latitude: sefer.baslangic_lat, longitude: sefer.baslangic_lng },
+    { latitude: sefer.varis_lat, longitude: sefer.varis_lng }
+);
 
-        sefer.tahmini_sure = trafficData.duration;
-        sefer.trafik_durumu = trafficData.congestion;
+sefer.tahmini_sure = trafficData.duration;
+sefer.trafik_durumu = trafficData.congestion;
 
-        // Sefer güncelleniyor
-        await seferRepository.save(sefer);
+await seferRepository.save(sefer);
 
-        // Güncellenen verileri log tablosuna ekliyoruz
-        const seferLog = logRepository.create({
-            sefer,
-            tahmini_sure: trafficData.duration,
-            trafik_durumu: trafficData.congestion,
-        });
+const seferLog = logRepository.create({
+    sefer,
+    tahmini_sure: trafficData.duration,
+    trafik_durumu: trafficData.congestion,
+});
 
-        // Sefer log kaydını veritabanına kaydediyoruz
-        await logRepository.save(seferLog);
+await logRepository.save(seferLog);
+
 
         // Erken çıkma önerisini alıyoruz
         const earlyDepartureMessage = await recommendEarlyDeparture(sefer);  // Erken çıkma önerisi alınıyor

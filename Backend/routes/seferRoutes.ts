@@ -22,25 +22,23 @@ const updateSefer = async (req: Request, res: Response, next: NextFunction): Pro
             return;
         }
 
-        const trafficData = await getTrafficData(
-            { latitude: sefer.baslangic_lat, longitude: sefer.baslangic_lng },
-            { latitude: sefer.varis_lat, longitude: sefer.varis_lng }
-        );
+      const trafficData = await getTrafficData(
+    { latitude: sefer.baslangic_lat, longitude: sefer.baslangic_lng },
+    { latitude: sefer.varis_lat, longitude: sefer.varis_lng }
+);
 
-        sefer.tahmini_sure = trafficData.duration;
-        sefer.trafik_durumu = trafficData.congestion;
+sefer.tahmini_sure = trafficData.duration;
+sefer.trafik_durumu = "unknown";  // Geoapify'da congestion yok
+await seferRepository.save(sefer);
 
-        await seferRepository.save(sefer);
+const seferLog = logRepository.create({
+    sefer,
+    tahmini_sure: trafficData.duration,
+    trafik_durumu: "unknown",  // yine sabit
+});
 
-        // Güncellenen verileri log tablosuna ekleyelim
-        const seferLog = logRepository.create({
-            sefer,  // Burada doğrudan 'sefer' objesini ekliyoruz, 'sefer_id' değil
-            tahmini_sure: trafficData.duration,
-            trafik_durumu: trafficData.congestion,
-        });
+await logRepository.save(seferLog);
 
-        // Sefer log kaydını veritabanına kaydediyoruz
-        await logRepository.save(seferLog);
 
         io.emit("seferGuncelle", sefer);
 

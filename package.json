@@ -3,10 +3,10 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --tunnel --dev-client=false",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint"
@@ -14,9 +14,19 @@
   "jest": {
     "preset": "jest-expo"
   },
+  "expo": {
+    "name": "R.O.S",
+    "slug": "ros",
+    "version": "1.0.0",
+    "jsEngine": "jsc",
+    "orientation": "portrait",
+    "plugins": [
+      "expo-router"
+    ]
+  },
   "dependencies": {
     "@clerk/clerk-expo": "^2.8.5",
-    "@expo/metro-runtime": "^4.0.1",
+    "@expo/metro-runtime": "5.0.4",
     "@expo/vector-icons": "^14.0.2",
     "@gorhom/bottom-sheet": "^5.1.2",
     "@neondatabase/serverless": "^0.10.4",
@@ -34,7 +44,6 @@
     "dotenv": "^16.4.7",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
-    "expo": "^53.0.0",
     "expo-auth-session": "~6.0.3",
     "expo-blur": "~14.0.3",
     "expo-constants": "~17.0.8",
@@ -43,7 +52,7 @@
     "expo-linking": "~7.0.5",
     "expo-local-authentication": "^15.0.2",
     "expo-location": "~18.1.4",
-    "expo-router": "~4.0.20",
+    "expo-router": "^5.0.7",
     "expo-secure-store": "~14.2.3",
     "expo-splash-screen": "~0.29.24",
     "expo-status-bar": "~2.0.1",
@@ -56,6 +65,7 @@
     "react-dom": "18.3.1",
     "react-native": "0.76.9",
     "react-native-animatable": "^1.4.0",
+    "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-google-places-autocomplete": "^2.5.7",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
@@ -74,6 +84,7 @@
     "tsconfig-paths": "^4.2.0",
     "typeorm": "^0.3.21",
     "use-latest-callback": "^0.2.3",
+    "web-streams-polyfill": "^3.2.1",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -98,21 +109,26 @@
     "@types/yargs": "^17.0.33",
     "autoprefixer": "^10.4.21",
     "babel-jest": "^29.7.0",
+    "babel-plugin-transform-require-ignore": "^0.1.1",
     "babel-preset-expo": "^12.0.9",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.1",
     "eslint": "^8.57.0",
     "eslint-config-expo": "~8.0.1",
-    "expo": "^53.0.0",
+    "expo": "^53.0.9",
     "jest": "~29.7.0",
     "jest-expo": "^50.0.4",
     "metro": "^0.82.1",
     "metro-config": "~0.80.4",
     "metro-react-native-babel-preset": "^0.77.0",
+    "path-browserify": "^1.0.1",
     "postcss": "^8.5.3",
     "react-native-svg-transformer": "^1.5.0",
     "react-test-renderer": "^18.2.0",
+    "stream-browserify": "^3.0.0",
     "tailwindcss": "^3.4.17",
     "ts-jest": "^29.3.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.4.5"
   },
   "private": true
 }

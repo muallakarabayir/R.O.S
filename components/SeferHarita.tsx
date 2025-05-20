@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MapView, { Marker, Polyline } from "react-native-maps";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import socket from "../utils/socket";
 
 interface Sefer {
@@ -9,22 +8,19 @@ interface Sefer {
     baslangic_lng: number;
     varis_lat: number;
     varis_lng: number;
-    route?: { latitude: number; longitude: number }[]; // Güzergah verisi (isteğe bağlı)
-    tahmini_sure?: number; // Tahmini süre (isteğe bağlı)
-    trafik_durumu?: string; // Trafik durumu (isteğe bağlı)
+    tahmini_sure?: number;
+    trafik_durumu?: string;
 }
 
-const SeferHarita = () => {
+const SeferHarita: React.FC = () => {
     const [seferler, setSeferler] = useState<Sefer[]>([]);
 
     useEffect(() => {
-        // İlk yüklemede mevcut seferleri çek
         fetch("http://localhost:5000/api/seferler")
             .then((res) => res.json())
             .then((data) => setSeferler(data))
             .catch((err) => console.error("Seferleri çekerken hata:", err));
 
-        // WebSocket ile gerçek zamanlı güncellemeleri dinle
         socket.on("seferGuncelle", (yeniSefer: Sefer) => {
             setSeferler((prev) => [...prev, yeniSefer]);
         });
@@ -35,61 +31,27 @@ const SeferHarita = () => {
     }, []);
 
     return (
-        <View style={styles.container}>
-            <MapView
-                style={styles.map}
-                initialRegion={{
-                    latitude: 39.9208,
-                    longitude: 32.8541,
-                    latitudeDelta: 0.1,
-                    longitudeDelta: 0.1,
-                }}
-            >
-                {seferler.map((sefer) => (
-                    <React.Fragment key={sefer.id}>
-                        {/* Başlangıç Noktası */}
-                        <Marker
-                            coordinate={{
-                                latitude: sefer.baslangic_lat,
-                                longitude: sefer.baslangic_lng,
-                            }}
-                            title="Başlangıç Noktası"
-                            pinColor="green"
-                        />
-
-                        {/* Varış Noktası */}
-                        <Marker
-                            coordinate={{
-                                latitude: sefer.varis_lat,
-                                longitude: sefer.varis_lng,
-                            }}
-                            title={`Varış Noktası - Süre: ${sefer.tahmini_sure} dk`}
-                            description={`Trafik Durumu: ${sefer.trafik_durumu}`}
-                            pinColor="red"
-                        />
-
-                        {/* Güzergah Çizgisi */}
-                        {sefer.route && (
-                            <Polyline
-                                coordinates={sefer.route}
-                                strokeWidth={4}
-                                strokeColor="blue"
-                            />
-                        )}
-                    </React.Fragment>
-                ))}
-            </MapView>
-        </View>
+        <ScrollView contentContainerStyle={styles.container}>
+            {seferler.map((sefer) => (
+                <View key={sefer.id} style={styles.card}>
+                    <Text>Sefer ID: {sefer.id}</Text>
+                    <Text>Başlangıç: {sefer.baslangic_lat}, {sefer.baslangic_lng}</Text>
+                    <Text>Varış: {sefer.varis_lat}, {sefer.varis_lng}</Text>
+                    <Text>Tahmini Süre: {sefer.tahmini_sure} dk</Text>
+                    <Text>Trafik Durumu: {sefer.trafik_durumu}</Text>
+                </View>
+            ))}
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    map: {
-        width: "100%",
-        height: "100%",
+    container: { padding: 20 },
+    card: {
+        backgroundColor: "#f0f0f0",
+        padding: 15,
+        marginBottom: 10,
+        borderRadius: 10,
     },
 });
 

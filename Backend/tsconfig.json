@@ -1,20 +1,18 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "moduleResolution": "nodenext",
+    "module": "NodeNext",
+    "target": "ESNext",
+    "strict": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "module": "CommonJS", // bu olmalı
-    "target": "ESNext",
-    "moduleResolution": "node",
     "skipLibCheck": true,
-    "strict": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
-  },
-  "extends": "expo/tsconfig.base"
+  }
 }
